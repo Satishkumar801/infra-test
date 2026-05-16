@@ -60,7 +60,17 @@ stages:
           inputs:
             version: 'v1.26.0'
             dir: '$(System.DefaultWorkingDirectory)/s'
-            
+  - stage: 
+    displayName: terraform apply
+    jobs:
+      - job: 
+        steps:
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'apply'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            environmentServiceNameAzureRM: 'serviceconnection-may'
         # - task: Bash@3
         #   inputs:
         #     targetType: 'inline'
