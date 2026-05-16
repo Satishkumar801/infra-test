@@ -36,6 +36,11 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'validate'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            environmentServiceNameAzureRM: 'serviceconnection-may'
 
   - stage:
     displayName: sacning tools
@@ -48,49 +53,50 @@ stages:
           inputs:
             version: 'v1.26.0'
             dir: '$(System.DefaultWorkingDirectory)/s'
-        - task: Bash@3
-          inputs:
-            targetType: 'inline'
-            script: |
-              echo "Installing required packages..."
+            
+        # - task: Bash@3
+        #   inputs:
+        #     targetType: 'inline'
+        #     script: |
+        #       echo "Installing required packages..."
               
-                  sudo apt-get update -y
-                  sudo apt-get install -y curl wget unzip git
+        #           sudo apt-get update -y
+        #           sudo apt-get install -y curl wget unzip git
               
-                  echo "Downloading TFLint install script..."
+        #           echo "Downloading TFLint install script..."
               
-                  wget https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh
+        #           wget https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh
               
-                  chmod +x install_linux.sh
+        #           chmod +x install_linux.sh
               
-                  echo "Installing TFLint..."
+        #           echo "Installing TFLint..."
               
-                  ./install_linux.sh
+        #           ./install_linux.sh
               
-                  export PATH=$PATH:/usr/local/bin
+        #           export PATH=$PATH:/usr/local/bin
               
-                  echo "Checking TFLint version..."
+        #           echo "Checking TFLint version..."
               
-                  tflint --version
+        #           tflint --version
               
-                  echo "======================================"
-                  echo " Creating .tflint.hcl "
-                  echo "======================================"
+        #           echo "======================================"
+        #           echo " Creating .tflint.hcl "
+        #           echo "======================================"
               
-                  cat <<EOF > .tflint.hcl
-                  plugin "azurerm" {
-                    enabled = true
-                    version = "0.24.0"
-                    source  = "github.com/terraform-linters/tflint-ruleset-azurerm"
-                  }
+        #           cat <<EOF > .tflint.hcl
+        #           plugin "azurerm" {
+        #             enabled = true
+        #             version = "0.24.0"
+        #             source  = "github.com/terraform-linters/tflint-ruleset-azurerm"
+        #           }
               
-                  rule "terraform_unused_declarations" {
-                    enabled = true
-                  }
+        #           rule "terraform_unused_declarations" {
+        #             enabled = true
+        #           }
               
-                  rule "terraform_unused_required_providers" {
-                    enabled = true
-                  }
-            workingDirectory: '$(System.DefaultWorkingDirectory)/s'
+        #           rule "terraform_unused_required_providers" {
+        #             enabled = true
+        #           }
+        #     workingDirectory: '$(System.DefaultWorkingDirectory)/s'
 
 
