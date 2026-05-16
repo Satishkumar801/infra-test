@@ -68,6 +68,17 @@ stages:
         - task: TerraformTask@5
           inputs:
             provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            backendAzureRmUseEntraIdForAuthentication: false
+            backendServiceArm: 'serviceconnection-may'
+            backendAzureRmResourceGroupName: 'agent_rg'
+            backendAzureRmStorageAccountName: 'satishstorage1122'
+            backendAzureRmContainerName: 'containersatish'
+            backendAzureRmKey: 'infra-hub-spoke.tfstate'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
             command: 'apply'
             workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
             environmentServiceNameAzureRM: 'serviceconnection-may'
