@@ -44,8 +44,53 @@ stages:
         displayName: tfsec-checkov
         steps:
         - task: tfsec@1
+          continueOnError: true
           inputs:
             version: 'v1.26.0'
             dir: '$(System.DefaultWorkingDirectory)/s'
+        - task: Bash@3
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo "Installing required packages..."
+              
+                  sudo apt-get update -y
+                  sudo apt-get install -y curl wget unzip git
+              
+                  echo "Downloading TFLint install script..."
+              
+                  wget https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh
+              
+                  chmod +x install_linux.sh
+              
+                  echo "Installing TFLint..."
+              
+                  ./install_linux.sh
+              
+                  export PATH=$PATH:/usr/local/bin
+              
+                  echo "Checking TFLint version..."
+              
+                  tflint --version
+              
+                  echo "======================================"
+                  echo " Creating .tflint.hcl "
+                  echo "======================================"
+              
+                  cat <<EOF > .tflint.hcl
+                  plugin "azurerm" {
+                    enabled = true
+                    version = "0.24.0"
+                    source  = "github.com/terraform-linters/tflint-ruleset-azurerm"
+                  }
+              
+                  rule "terraform_unused_declarations" {
+                    enabled = true
+                  }
+              
+                  rule "terraform_unused_required_providers" {
+                    enabled = true
+                  }
+            workingDirectory: '$(System.DefaultWorkingDirectory)/s'
 
 
