@@ -40,6 +40,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
+            commandOptions: 'plan'
             environmentServiceNameAzureRM: 'serviceconnection-may'
 
   - stage:
