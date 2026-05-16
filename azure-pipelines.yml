@@ -5,20 +5,12 @@ pool:
   name: Default
 
 stages:
-
-# =========================
-# TERRAFORM STAGE
-# =========================
-- stage: Terraformlifecycle
+- stage: TerraformLifecycle
   displayName: Terraform Lifecycle
 
   jobs:
-
-  # =========================
-  # JOB 1 : INSTALL TERRAFORM
-  # =========================
-  - job: terraforminstall
-    displayName: terraform-install
+  - job: TerraformJob
+    displayName: Terraform Install Init Validate
 
     steps:
 
@@ -30,36 +22,14 @@ stages:
 
     # Install Terraform
     - task: TerraformInstaller@1
-      displayName: terraform-install
+      displayName: Install Terraform
       inputs:
         terraformVersion: '1.6.6'
 
     # Verify Terraform
     - script: |
         terraform --version
-      displayName: Check Terraform Version
-
-  # =========================
-  # JOB 2 : TERRAFORM INIT & VALIDATE
-  # =========================
-  - job: terraforminit
-    displayName: terraform-init
-
-    dependsOn: terraforminstall
-
-    steps:
-
-    # Install unzip again
-    - script: |
-        sudo apt update
-        sudo apt install unzip -y
-      displayName: Install unzip
-
-    # Install Terraform again
-    - task: TerraformInstaller@1
-      displayName: terraform-install
-      inputs:
-        terraformVersion: '1.6.6'
+      displayName: Verify Terraform
 
     # Terraform Init
     - task: TerraformTask@5
