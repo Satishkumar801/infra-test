@@ -1,4 +1,5 @@
-trigger: none
+trigger: 
+- main
 
 pool: Default
 
@@ -45,7 +46,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
             commandOptions: 'plan'
             environmentServiceNameAzureRM: 'serviceconnection-may'
 
