@@ -21,6 +21,7 @@ stages:
             provider: 'azurerm'
             command: 'init'
             workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            backendAzureRmUseEntraIdForAuthentication: false
             backendServiceArm: 'serviceconnection-may'
             backendAzureRmResourceGroupName: 'agent_rg'
             backendAzureRmStorageAccountName: 'satishstorage1122'
