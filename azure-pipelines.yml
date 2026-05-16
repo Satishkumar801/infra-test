@@ -4,43 +4,40 @@ trigger:
 pool:
   name: Default
 
-variables:
-  terraformVersion: '1.6.6'
-
 stages:
-
+  - stage: Terraformlifecycle
 # =========================
 # STAGE 1 : VALIDATE
 # =========================
-- stage: Validate
-  displayName: "Terraform Validation Stage"
+    jobs:
+      - job: terraforminstall
+        displayName: terraform-install
+        steps:
+          - task: TerraformInstaller@1
+            displayName: terraform-install
+            inputs:
+              terraformVersion: 'latest'
 
-  jobs:
-  - job: TerraformValidate
-    displayName: "Validate Terraform Code"
+      - job: terraforminit
+        displayName: terraforn-init
+        steps:
+            - task: TerraformTask@5
+              inputs:
+                provider: 'azurerm'
+                command: 'init'
+                workingDirectory: '$(System.DefaultWorkingDirectory)/environment/dev'
+                backendServiceArm: 'serviceconnection-may'
+                backendAzureRmStorageAccountName: 'satishstorage1122'
+                backendAzureRmContainerName: 'containersatish'
+                backendAzureRmKey: 'infra-hub-spoke.tfstate'
 
-    steps:
+            - task: TerraformTask@5
+              inputs:
+                    provider: 'azurerm'
+                    command: 'validate'
+                    workingDirectory: '$(System.DefaultWorkingDirectory)/environment/dev'
 
-    # Install Terraform
-    - task: TerraformInstaller@1
-      displayName: "Install Terraform"
-      inputs:
-        terraformVersion: $(terraformVersion)
 
-    # Terraform Init
-    - script: |
-        terraform init
-      displayName: "Terraform Init"
-
-    # Terraform Format Check
-    - script: |
-        terraform fmt -check
-      displayName: "Terraform Format Check"
-
-    # Terraform Validate
-    - script: |
-        terraform validate
-      displayName: "Terraform Validate"
 
 # =========================
 # STAGE 2 : PLAN
