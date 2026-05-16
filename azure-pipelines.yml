@@ -29,7 +29,7 @@ stages:
             provider: 'azurerm'
             command: 'custom'
             outputTo: 'console'
-            customCommand: 'terraform fmt'
+            customCommand: 'fmt'
             environmentServiceNameAzureRM: 'serviceconnection-may'
         - task: TerraformTask@5
           displayName: terraform validate
