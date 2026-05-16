@@ -20,7 +20,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
             backendAzureRmUseEntraIdForAuthentication: false
             backendServiceArm: 'serviceconnection-may'
             backendAzureRmResourceGroupName: 'agent_rg'
@@ -45,7 +45,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/environments/dev'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
             commandOptions: 'plan'
             environmentServiceNameAzureRM: 'serviceconnection-may'
 
