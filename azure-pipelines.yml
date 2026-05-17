@@ -1,11 +1,8 @@
 trigger: 
 - main
-
 pool: Default
-
 # variables: 
 #  working_path: $(System.DefaultWorkingDirectory)/environments/dev
-
 stages:
   - stage:
     displayName: Initplan 
