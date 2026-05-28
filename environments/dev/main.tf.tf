@@ -4,4 +4,15 @@ module "resourblock" {
 
 }
 
+module "vnet" {
+  source     = "../../modules/vnet"
+  vnet_name  = var.vnetname1
+  depends_on = [module.resourblock]
+
+}
+
+
+
+
+
 
